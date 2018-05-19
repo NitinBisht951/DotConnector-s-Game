@@ -60,13 +60,12 @@ class Box {
   }
 
   void showWalls() {
-    //strokeWeight(2);
-    //point(center.x,center.y);
     float top = center.y-boxRadii;
     float left = center.x-boxRadii;
     float bottom = center.y+boxRadii;
     float right = center.x+boxRadii;
     float margin = RADII/2;
+    strokeWeight(4);
     if (walls[0]) line(left+margin, top, right-margin, top);
     if (walls[1]) line(right, top+margin, right, bottom-margin);
     if (walls[2]) line(left+margin, bottom, right-margin, bottom);

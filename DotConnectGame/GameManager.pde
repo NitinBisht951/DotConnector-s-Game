@@ -58,15 +58,16 @@ class GameManager {
 
   void showScores() {
     for (int i = 0; i < NPLAYERS; i++) {
+      float spaceFactor = 300;                                       // 300 for mobile, 300 for PC
       if (pTurnIndex == i) {
-        stroke(#03FF1D);
+        stroke(#FD0000);
         strokeWeight(10);
-        point(70+i*300, 50);
+        point(70+i*spaceFactor, 50);                                    // 100 for mobile, 50 for PC
         strokeWeight(1);
       }
       fill(0);
-      text(player[i].getName(), 100+i*300, 50);
-      text(player[i].getScore(), 100+i*300, 80);
+      text(player[i].getName(), 100+i*spaceFactor, 50);                 // 100 for mobile, 50 for PC
+      text(player[i].getScore(), 100+i*spaceFactor, 90);                // 160 for mobile, 90 for PC
     }
   }
 
@@ -85,7 +86,7 @@ class GameManager {
     textSize(40);
     textAlign(CENTER, CENTER);
     fill(0);
-    text(player[winnerIndex].getName()+", you are the winner", width/2, height/2);
+    text(player[winnerIndex].getName()+", you won", width/2, height/2);
   }
 
   void changeTurn() {
@@ -143,9 +144,9 @@ class GameManager {
         dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(#FF0000);
       } else if (clicks == 1) {
         println("last index : ", byte(lastDotIndexes.x), byte(lastDotIndexes.y));
-        clicks = 0;
         if (((firstDotIndexes.x == lastDotIndexes.x)^(firstDotIndexes.y == lastDotIndexes.y))&&((abs(firstDotIndexes.x - lastDotIndexes.x)==1)^(abs(firstDotIndexes.y - lastDotIndexes.y)==1))) 
         { 
+          clicks = 0;
           boolean cheating = areDotsConnected(firstDotIndexes, lastDotIndexes);
           if (cheating == true) { 
             println("Don't try to be OverSmart, CHEATER!!!"); 
@@ -158,6 +159,7 @@ class GameManager {
             if (changeTurn == true) changeTurn();
           }
         } else if (firstDotIndexes.x == lastDotIndexes.x && firstDotIndexes.y == lastDotIndexes.y) {
+          clicks = 0;
           if (dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].isFilled() == true) 
             dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
           else dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(255);

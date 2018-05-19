@@ -13,19 +13,19 @@ int[] data = {10, 29, 13, 9, 13, 8, 13, 7, 13, 6, 14, 6, 15, 6, 16, 6, 17, 6, 18
   15, 47, 14, 47, 13, 47, 12, 47, 11, 47, 10, 47, 10, 46, 10, 45, 10, 44, 10, 43, 10, 42, 10, 41, 10, 40, 10, 39, 10, 38, 10, 37, 10, 35, 10, 34, 10, 33, 10, 36, 10, 32, 10, 31, 10, 30, 
   10, 28, 10, 27, 10, 26, 10, 25, 10, 24, 10, 23, 10, 22, 10, 4, 10, 5, 10, 6, 10, 7, 10, 8, 10, 9, 10, 10, 10, 11, 10, 12, 10, 13, 10, 14, 10, 15, 10, 16, 10, 17, 10, 18, 10, 19, 10, 20, 10, 21};
 
-final byte sDim = 60;               //splash Dimensions ROWS and COLS
+final byte sDim = 60;               // 50 for mobile, 60 for PC
+final byte SRADII = 6;
 class SplashScreen {
-  int waitTime = 2000;
   boolean splash = true;
   Dot[][] dots = new Dot[sDim][sDim];
 
   SplashScreen() {
-    float gapDist = 3.8095238;
-    PVector s = new PVector(2*gapDist, 2*gapDist);
+    float gapDist = 3.80;
+    PVector s = new PVector(2*gapDist, 2*gapDist);             // 30, 250   for mobile, 2*gapDist, 2*gapDist for PC
     for (byte r = 0; r < sDim; r++) {
-      float rStart = s.y + r*(gapDist+RADII);
+      float rStart = s.y + r*(gapDist+SRADII);
       for (byte c = 0; c < sDim; c++) {
-        float cStart = s.x + c*(gapDist+RADII);
+        float cStart = s.x + c*(gapDist+SRADII);
         dots[r][c] = new Dot(new PVector(cStart, rStart));
       }
     }
@@ -34,7 +34,7 @@ class SplashScreen {
   boolean find(int x, int y) {
     boolean found = false;
     for (int i = 0; i < data.length; i+=2) {
-      if (data[i] == x-6 && data[i+1] == y-5) {
+      if (data[i] == x-5 && data[i+1] == y-5) {                // x, y+1 for mobile x-5, y-5 for PC
         found = true;
         break;
       }
@@ -43,7 +43,7 @@ class SplashScreen {
   }
 
   void splash() {
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 500; i++) {
       PVector lastDotIndexes = new PVector(random(sDim), random(sDim));
       boolean found = find(int(lastDotIndexes.x), int(lastDotIndexes.y));
       if (lastDotIndexes.x >= 0 && found == false) {
