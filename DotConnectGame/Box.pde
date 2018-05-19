@@ -51,9 +51,12 @@ class Box {
   }
 
   void showName() {
+    pushStyle();
     textAlign(CENTER,CENTER);
+    textFont(initialsFont, boxRadii);
+    fill(0);
     text(playerInitial, center.x, center.y);
-    textAlign(BASELINE);
+    popStyle();
   }
 
   void showWalls() {
@@ -63,10 +66,11 @@ class Box {
     float left = center.x-boxRadii;
     float bottom = center.y+boxRadii;
     float right = center.x+boxRadii;
-    if (walls[0]) line(left, top, right, top);
-    if (walls[1]) line(right, top, right, bottom);
-    if (walls[2]) line(left, bottom, right, bottom);
-    if (walls[3]) line(left, top, left, bottom);
+    float margin = RADII/2;
+    if (walls[0]) line(left+margin, top, right-margin, top);
+    if (walls[1]) line(right, top+margin, right, bottom-margin);
+    if (walls[2]) line(left+margin, bottom, right-margin, bottom);
+    if (walls[3]) line(left, top+margin, left, bottom-margin);
   }
 
   boolean getTopWallStatus() {

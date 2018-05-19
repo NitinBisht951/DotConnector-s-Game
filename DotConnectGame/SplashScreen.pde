@@ -44,10 +44,10 @@ class SplashScreen {
 
   void splash() {
     for (int i = 0; i < 200; i++) {
-      PVector indexes = new PVector(random(sDim), random(sDim));
-      boolean found = find(int(indexes.x), int(indexes.y));
-      if (indexes.x >= 0 && found == false) {
-        dots[int(indexes.x)][int(indexes.y)].setFilled();
+      PVector lastDotIndexes = new PVector(random(sDim), random(sDim));
+      boolean found = find(int(lastDotIndexes.x), int(lastDotIndexes.y));
+      if (lastDotIndexes.x >= 0 && found == false) {
+        dots[int(lastDotIndexes.x)][int(lastDotIndexes.y)].setCol(0);
       }
     }
     for (byte r = 0; r < sDim; r++)

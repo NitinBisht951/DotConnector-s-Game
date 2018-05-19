@@ -1,28 +1,26 @@
 class Dot {
   PVector position;
   boolean filled;
+  color col = 255;
 
   Dot(PVector position) {
     this.position = position;
-    filled = false;
+    this.col = 255;
+    this.filled = false;
   }
 
   void draw() {
     stroke(0);
-    if(filled == false) fill(255);
-    else fill(0);
-    rect(position.x,position.y,RADII,RADII);
+    fill(col);
+    rect(position.x, position.y, RADII, RADII);
   }
-  
-  void setFilled() {
-    filled = true;
+
+  void setCol(color col) {
+    this.col = col;
+    if (col == 0) filled = true;
   }
-  
-  void mouseClicked() {
-     setFilled();
-  }
-  
+
   boolean isFilled() {
-   return filled; 
+    return filled;
   }
 }

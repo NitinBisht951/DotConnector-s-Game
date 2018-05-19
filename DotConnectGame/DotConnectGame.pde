@@ -6,7 +6,7 @@ final int MAXSCORE = int(NROWS-1)*int(NCOLS-1);
 
 PVector start;
 float space;
-PFont tFont;
+PFont scoreFont, initialsFont;
 float boxRadii;
 
 SplashScreen splashScreen;
@@ -16,8 +16,9 @@ String[] playersName = {"ANKUR", "NITIN"};
 
 void setup() {
   size(600, 600);
-  tFont = loadFont("Computerfont-32.vlw");
-  textFont(tFont, 28);
+  scoreFont = loadFont("AgencyFB-Bold-32.vlw");
+  initialsFont = loadFont("Siddhanta-32.vlw");
+  textFont(scoreFont, 28);
   space = (width-RADII*NCOLS)/(4+NCOLS-1);
   start = new PVector(2*space, 125);
   boxRadii = (space + RADII)/2;
@@ -34,13 +35,14 @@ void draw() {
   else game.showResult();
 }
 
-void mouseClicked() {
-  game.mouseClicked();
+void mousePressed() {
+  if (splashScreen.splash == false && game.hasEnded() == false)
+    game.mousePressed();
 }
 
 void keyPressed() {
-  if(key == ' ' && splashScreen.splash == true) splashScreen.end();
-  game.keyPressed();
+  if (key == ' ' && splashScreen.splash == true) splashScreen.end();
+  else game.keyPressed();
 }
 
 //void mouseMoved() {
