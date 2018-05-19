@@ -52,7 +52,11 @@ class Box {
 
   void showName() {
     pushStyle();
-    textAlign(CENTER,CENTER);
+    //rectMode(CENTER);
+    //fill(255);
+    //noStroke();
+    //rect(center.x+2, center.y+2, 2*boxRadii, 2*boxRadii);
+    textAlign(CENTER, CENTER);
     textFont(initialsFont, boxRadii);
     fill(0);
     text(playerInitial, center.x, center.y);

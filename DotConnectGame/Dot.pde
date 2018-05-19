@@ -11,6 +11,7 @@ class Dot {
 
   void draw() {
     stroke(0);
+    strokeWeight(1);
     fill(col);
     rect(position.x, position.y, RADII, RADII);
   }

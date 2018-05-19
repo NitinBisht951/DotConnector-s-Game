@@ -40,12 +40,15 @@ class GameManager {
   }
 
   void run() {
-    for (byte r = 0; r < NROWS; r++)
-      for (byte c = 0; c < NCOLS; c++)
-        dots[r][c].draw();
+  
     for (byte r = 0; r < NROWS-1; r++) {
       for (byte c = 0; c < NCOLS-1; c++) {
         boxes[r][c].show();
+      }
+    }
+  for (byte r = 0; r < NROWS; r++) {
+      for (byte c = 0; c < NCOLS; c++) {
+        dots[r][c].draw();
       }
     }
     showScores();
@@ -60,10 +63,12 @@ class GameManager {
     for (int i = 0; i < NPLAYERS; i++) {
       float spaceFactor = 300;                                       // 300 for mobile, 300 for PC
       if (pTurnIndex == i) {
+        pushStyle();
+        strokeCap(ROUND);
         stroke(#FD0000);
         strokeWeight(10);
         point(70+i*spaceFactor, 50);                                    // 100 for mobile, 50 for PC
-        strokeWeight(1);
+        popStyle();
       }
       fill(0);
       text(player[i].getName(), 100+i*spaceFactor, 50);                 // 100 for mobile, 50 for PC
@@ -83,6 +88,8 @@ class GameManager {
   }
 
   void showResult() {
+    rectMode(CENTER);
+    rect(width/2, height/2, 300, 40, 5);
     textSize(40);
     textAlign(CENTER, CENTER);
     fill(0);
