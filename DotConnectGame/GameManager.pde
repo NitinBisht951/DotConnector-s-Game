@@ -2,6 +2,7 @@ class GameManager {
   Player[] player = new Player[NPLAYERS];
   Dot[][] dots = new Dot[NROWS][NCOLS];
   Box[][] boxes = new Box[NROWS-1][NCOLS-1];
+  
   byte pTurnIndex;
   boolean changeTurn;
   byte clicks;
@@ -17,6 +18,7 @@ class GameManager {
         boxes[r][c] = new Box(new PVector(start.x+RADII/2+(2*c+1)*boxRadii, start.y+RADII/2+(2*r+1)*boxRadii));
       }
     }
+    
     dotsInit();
     this.pTurnIndex = 1;
     this.changeTurn();
@@ -25,27 +27,6 @@ class GameManager {
     this.winnerIndex = -1;
     this.changeTurn = true;
     this.gameEnd = false;
-  }
-
-  boolean hasEnded() {
-    return gameEnd;
-  }
-
-  void eyeOnScores() {
-    int score0 = player[0].getScore();
-    int score1 = player[1].getScore();
-    int leftScore = MAXSCORE-(score0+score1);
-    if(abs(score0 - score1) > leftScore) {
-      gameEnd = true;
-      if(score0 > score1) winnerIndex = 0;
-      else winnerIndex = 1;
-    }
-  }
-
-  void showResult() {
-    textSize(40);
-    textAlign(CENTER, CENTER);
-    text(player[winnerIndex].getName()+", you are the winner", width/2, height/2);
   }
 
   void dotsInit() {
@@ -69,6 +50,47 @@ class GameManager {
     }
     showScores();
     eyeOnScores();
+  }
+  
+  boolean hasEnded() {
+    return gameEnd;
+  }
+
+  void showScores() {
+    for (int i = 0; i < NPLAYERS; i++) {
+      if (pTurnIndex == i) {
+        stroke(#03FF1D);
+        strokeWeight(10);
+        point(70+i*300, 50);
+        strokeWeight(1);
+      }
+      fill(0);
+      text(player[i].getName(), 100+i*300, 50);
+      text(player[i].getScore(), 100+i*300, 80);
+    }
+  }
+  
+  void eyeOnScores() {
+    int score0 = player[0].getScore();
+    int score1 = player[1].getScore();
+    int leftScore = MAXSCORE-(score0+score1);
+    if(abs(score0 - score1) > leftScore) {
+      gameEnd = true;
+      if(score0 > score1) winnerIndex = 0;
+      else winnerIndex = 1;
+    }
+  }
+
+  void showResult() {
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text(player[winnerIndex].getName()+", you are the winner", width/2, height/2);
+  }
+  
+  void changeTurn() {
+    if (pTurnIndex == 0) pTurnIndex = 1;
+    else pTurnIndex = 0;
+    println(player[pTurnIndex].getName()+"'s turn");
   }
 
   void manageBoxes(PVector fDot, PVector lDot) {
@@ -137,12 +159,6 @@ class GameManager {
     }
   }
 
-  void changeTurn() {
-    if (pTurnIndex == 0) pTurnIndex = 1;
-    else pTurnIndex = 0;
-    println(player[pTurnIndex].getName()+"'s turn");
-  }
-
   boolean areDotsConnected(PVector fDotIndexes, PVector indexes) {
     boolean b = dots[byte(fDotIndexes.x)][byte(fDotIndexes.y)].isFilled() && dots[byte(indexes.x)][byte(indexes.y)].isFilled();
     if (fDotIndexes.x == indexes.x) {
@@ -166,20 +182,6 @@ class GameManager {
           boxes[r][c].printWallsStatus();
         }
       }
-    }
-  }
-
-  void showScores() {
-    for (int i = 0; i < NPLAYERS; i++) {
-      if (pTurnIndex == i) {
-        stroke(#03FF1D);
-        strokeWeight(10);
-        point(70+i*300, 50);
-        strokeWeight(1);
-      }
-      fill(0);
-      text(player[i].getName(), 100+i*300, 50);
-      text(player[i].getScore(), 100+i*300, 80);
     }
   }
 
