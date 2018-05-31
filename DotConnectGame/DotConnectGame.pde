@@ -9,7 +9,6 @@ float space;
 PFont scoreFont, initialsFont;
 float boxRadii;
 
-SplashScreen splashScreen;
 GameManager game;
 String[] playersName = {"ANKUR", "NITIN"};
 // BookmanOldStyle-Bold-32
@@ -25,26 +24,20 @@ void setup() {
   start = new PVector(space, 125);      // 250 for mobile, 125 for PC
   boxRadii = (space + RADII)/2;
   game = new GameManager();
-  splashScreen = new SplashScreen();
 }
 
 void draw() {
-  background(#0DDC6F);
-  if (splashScreen.splash == true) 
-    splashScreen.splash();
-  else if (game.hasEnded() == false)
+  background(#5C679B);              //0DDC6F
+  if (game.hasEnded() == false)
     game.run(); 
   else game.showResult();
 }
 
 void mousePressed() {
-  if (splashScreen.splash == true) splashScreen.end();
-  else if (splashScreen.splash == false && game.hasEnded() == false)
+  if (game.hasEnded() == false)
     game.mousePressed();
 }
 
 void keyPressed() {
-  if (splashScreen.splash == true) { 
-    if (key == ' ') splashScreen.end();
-  } else game.keyPressed();
+  game.keyPressed();
 }

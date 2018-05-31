@@ -13,7 +13,8 @@ class Dot {
     stroke(0);
     strokeWeight(1);
     fill(col);
-    rect(position.x, position.y, RADII, RADII);
+    ellipse(position.x+RADII/2, position.y+RADII/2, 2*RADII, 2*RADII);
+    //rect(position.x, position.y, RADII, RADII);
   }
 
   void setCol(color col) {

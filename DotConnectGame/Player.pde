@@ -1,20 +1,26 @@
 class Player {
   String name;
   int score;
-  
-  Player(String name) {
+  color idColor;
+
+  Player(String name, color idColor) {
     this.name = name;
     this.score = 0;
+    this.idColor = idColor;
   }
-  
+
   String getName() {
     return name;
   }
-  
+
   int getScore() {
-    return score; 
+    return score;
   }
-  
+
+  color getIdColor() {
+    return idColor;
+  }
+
   void updateScore() {
     score++;
   }

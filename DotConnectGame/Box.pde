@@ -1,20 +1,22 @@
 class Box {
   boolean[] walls = new boolean[4];
   char playerInitial;
-  boolean connected;
+  color boxColor;
+  boolean fullyBounded;
   PVector center;
 
   Box(PVector center) {
     this.center = center;
+    boxColor = 255;
     walls[0] = false;                  //top
     walls[1] = false;                  //right
     walls[2] = false;                  //bottom
     walls[3] = false;                  //left
     playerInitial = 'P';
-    connected = false;
+    fullyBounded = false;
   }
 
-  void updateWalls(char wall, char playerInitial) {
+  void updateWalls(char wall) {
     switch(wall) {
     case 'T' : 
       walls[0] = true;
@@ -31,17 +33,21 @@ class Box {
     default : 
       break;
     }
-    connected = walls[0] && walls[1] && walls[2] && walls[3];
-    if (connected) this.playerInitial = playerInitial;
+    fullyBounded = walls[0] && walls[1] && walls[2] && walls[3];
   }
 
   boolean completed() {
-    return connected;
+    return fullyBounded;
+  }
+
+  void conquerBox(char playerInitial, color boxColor) {
+    this.playerInitial = playerInitial;
+    this.boxColor = boxColor;
   }
 
   void show() {
     showWalls();
-    if (connected) {
+    if (fullyBounded) {
       showName();
     }
   }

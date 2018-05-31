@@ -2,6 +2,7 @@ class GameManager {
   Player[] player = new Player[NPLAYERS];
   Dot[][] dots = new Dot[NROWS][NCOLS];
   Box[][] boxes = new Box[NROWS-1][NCOLS-1];
+  color[] idColors = new color[]{#F0B177,#B977F0};
 
   byte pTurnIndex;
   boolean changeTurn;
@@ -12,7 +13,7 @@ class GameManager {
 
   GameManager() {
     for (int i = 0; i < NPLAYERS; i++) 
-      player[i] = new Player(playersName[i]);
+      player[i] = new Player(playersName[i],idColors[i]);
     for (byte r = 0; r < NROWS-1; r++) {
       for (byte c = 0; c < NCOLS-1; c++) {
         boxes[r][c] = new Box(new PVector(start.x+RADII/2+(2*c+1)*boxRadii, start.y+RADII/2+(2*r+1)*boxRadii));
@@ -108,15 +109,17 @@ class GameManager {
     if (fDot.x == lDot.x) {         //when dots are on same row
       byte minC = byte(min(fDot.y, lDot.y));
       if (fDot.x < NROWS-1) { 
-        boxes[byte(fDot.x)][minC].updateWalls('T', pChar);        
+        boxes[byte(fDot.x)][minC].updateWalls('T');        
         if (boxes[byte(fDot.x)][minC].completed()) { 
+          boxes[byte(fDot.x)][minC].conquerBox(pChar,idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
       }
       if (fDot.x > 0) {
-        boxes[byte(fDot.x-1)][minC].updateWalls('B', pChar);
+        boxes[byte(fDot.x-1)][minC].updateWalls('B');
         if (boxes[byte(fDot.x-1)][minC].completed()) {
+          boxes[byte(fDot.x-1)][minC].conquerBox(pChar,idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
@@ -124,15 +127,17 @@ class GameManager {
     } else {                        //when dots are on same column
       byte minR = byte(min(fDot.x, lDot.x));
       if (fDot.y < NCOLS-1) {
-        boxes[minR][byte(fDot.y)].updateWalls('L', pChar);
+        boxes[minR][byte(fDot.y)].updateWalls('L');
         if (boxes[minR][byte(fDot.y)].completed()) { 
+          boxes[minR][byte(fDot.y)].conquerBox(pChar,idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
       }
       if (fDot.y > 0) { 
-        boxes[minR][byte(fDot.y-1)].updateWalls('R', pChar);
+        boxes[minR][byte(fDot.y-1)].updateWalls('R');
         if (boxes[minR][byte(fDot.y-1)].completed()) {
+          boxes[minR][byte(fDot.y-1)].conquerBox(pChar,idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
