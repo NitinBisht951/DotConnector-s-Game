@@ -9,7 +9,7 @@ float space;
 PFont scoreFont, initialsFont;
 float boxRadii;
 
-GameManagers game;
+GameManager game;
 String[] playersName = {"ANKUR", "NITIN"};
 color[] idColors = new color[]{#8DD169, #A16BD1};
 
@@ -23,7 +23,7 @@ void setup() {
   space = (width-RADII*NCOLS)/(2+NCOLS-1);
   start = new PVector(space, 125);      // 250 for mobile, 125 for PC
   boxRadii = (space + RADII)/2;
-  game = new GameManagers();
+  game = new GameManager();
 }
 
 void draw() {
