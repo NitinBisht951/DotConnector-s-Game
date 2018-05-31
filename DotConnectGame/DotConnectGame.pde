@@ -11,7 +11,7 @@ float boxRadii;
 
 GameManager game;
 String[] playersName = {"ANKUR", "NITIN"};
-// BookmanOldStyle-Bold-32
+color[] idColors = new color[]{#8DD169, #A16BD1};
 
 void setup() {
   //fullScreen();
@@ -27,7 +27,7 @@ void setup() {
 }
 
 void draw() {
-  background(#5C679B);              //0DDC6F
+  background(#96a7ba);              //0DDC6F 5C679B
   if (game.hasEnded() == false)
     game.run(); 
   else game.showResult();
@@ -36,6 +36,11 @@ void draw() {
 void mousePressed() {
   if (game.hasEnded() == false)
     game.mousePressed();
+}
+
+void mouseReleased() {
+  if (game.hasEnded() == false)
+    game.mouseReleased();
 }
 
 void keyPressed() {

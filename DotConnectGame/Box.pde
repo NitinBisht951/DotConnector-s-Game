@@ -58,10 +58,10 @@ class Box {
 
   void showName() {
     pushStyle();
-    //rectMode(CENTER);
-    //fill(255);
-    //noStroke();
-    //rect(center.x+2, center.y+2, 2*boxRadii, 2*boxRadii);
+    rectMode(CENTER);
+    fill(boxColor);
+    noStroke();
+    rect(center.x+2, center.y+2, 2*boxRadii, 2*boxRadii);
     textAlign(CENTER, CENTER);
     textFont(initialsFont, boxRadii);
     fill(0);

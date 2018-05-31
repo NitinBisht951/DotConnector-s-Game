@@ -2,18 +2,16 @@ class GameManager {
   Player[] player = new Player[NPLAYERS];
   Dot[][] dots = new Dot[NROWS][NCOLS];
   Box[][] boxes = new Box[NROWS-1][NCOLS-1];
-  color[] idColors = new color[]{#F0B177,#B977F0};
 
   byte pTurnIndex;
   boolean changeTurn;
-  byte clicks;
   PVector firstDotIndexes;
   boolean gameEnd;
   byte winnerIndex;
 
   GameManager() {
     for (int i = 0; i < NPLAYERS; i++) 
-      player[i] = new Player(playersName[i],idColors[i]);
+      player[i] = new Player(playersName[i], idColors[i]);
     for (byte r = 0; r < NROWS-1; r++) {
       for (byte c = 0; c < NCOLS-1; c++) {
         boxes[r][c] = new Box(new PVector(start.x+RADII/2+(2*c+1)*boxRadii, start.y+RADII/2+(2*r+1)*boxRadii));
@@ -23,7 +21,6 @@ class GameManager {
     dotsInit();
     this.pTurnIndex = 1;
     this.changeTurn();
-    this.clicks = 0;
     this.firstDotIndexes = new PVector(0, 0);
     this.winnerIndex = -1;
     this.changeTurn = true;
@@ -41,13 +38,13 @@ class GameManager {
   }
 
   void run() {
-  
+
     for (byte r = 0; r < NROWS-1; r++) {
       for (byte c = 0; c < NCOLS-1; c++) {
         boxes[r][c].show();
       }
     }
-  for (byte r = 0; r < NROWS; r++) {
+    for (byte r = 0; r < NROWS; r++) {
       for (byte c = 0; c < NCOLS; c++) {
         dots[r][c].draw();
       }
@@ -62,13 +59,17 @@ class GameManager {
 
   void showScores() {
     for (int i = 0; i < NPLAYERS; i++) {
-      float spaceFactor = 300;                                       // 300 for mobile, 300 for PC
+      float spaceFactor = 300;      
+
+      fill(idColors[i]);
+      strokeWeight(2);
+      ellipse(70+i*spaceFactor, 50-textAscent()/2, 24, 24);
       if (pTurnIndex == i) {
         pushStyle();
         strokeCap(ROUND);
         stroke(#FD0000);
         strokeWeight(10);
-        point(70+i*spaceFactor, 50);                                    // 100 for mobile, 50 for PC
+        point(70+i*spaceFactor, 50-textAscent()/2);                                    // 100 for mobile, 50 for PC
         popStyle();
       }
       fill(0);
@@ -111,7 +112,7 @@ class GameManager {
       if (fDot.x < NROWS-1) { 
         boxes[byte(fDot.x)][minC].updateWalls('T');        
         if (boxes[byte(fDot.x)][minC].completed()) { 
-          boxes[byte(fDot.x)][minC].conquerBox(pChar,idColors[pTurnIndex]);
+          boxes[byte(fDot.x)][minC].conquerBox(pChar, idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
@@ -119,7 +120,7 @@ class GameManager {
       if (fDot.x > 0) {
         boxes[byte(fDot.x-1)][minC].updateWalls('B');
         if (boxes[byte(fDot.x-1)][minC].completed()) {
-          boxes[byte(fDot.x-1)][minC].conquerBox(pChar,idColors[pTurnIndex]);
+          boxes[byte(fDot.x-1)][minC].conquerBox(pChar, idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
@@ -129,7 +130,7 @@ class GameManager {
       if (fDot.y < NCOLS-1) {
         boxes[minR][byte(fDot.y)].updateWalls('L');
         if (boxes[minR][byte(fDot.y)].completed()) { 
-          boxes[minR][byte(fDot.y)].conquerBox(pChar,idColors[pTurnIndex]);
+          boxes[minR][byte(fDot.y)].conquerBox(pChar, idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
@@ -137,7 +138,7 @@ class GameManager {
       if (fDot.y > 0) { 
         boxes[minR][byte(fDot.y-1)].updateWalls('R');
         if (boxes[minR][byte(fDot.y-1)].completed()) {
-          boxes[minR][byte(fDot.y-1)].conquerBox(pChar,idColors[pTurnIndex]);
+          boxes[minR][byte(fDot.y-1)].conquerBox(pChar, idColors[pTurnIndex]);
           player[pTurnIndex].updateScore();
           turn = false;
         }
@@ -147,36 +148,33 @@ class GameManager {
   }
 
   void mousePressed() {
+    firstDotIndexes = getIndexes();
+    if (firstDotIndexes.x >= 0) {
+      println("start index : ", byte(firstDotIndexes.x), byte(firstDotIndexes.y));
+      dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(#FF0000);
+    }
+  }
+
+  void mouseReleased() {
     PVector lastDotIndexes = getIndexes();
-    if (lastDotIndexes.x >= 0) {
-      if (clicks == 0) {
-        println("start index : ", byte(lastDotIndexes.x), byte(lastDotIndexes.y));
-        clicks = 1;
-        firstDotIndexes = lastDotIndexes;
-        dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(#FF0000);
-      } else if (clicks == 1) {
-        println("last index : ", byte(lastDotIndexes.x), byte(lastDotIndexes.y));
-        if (((firstDotIndexes.x == lastDotIndexes.x)^(firstDotIndexes.y == lastDotIndexes.y))&&((abs(firstDotIndexes.x - lastDotIndexes.x)==1)^(abs(firstDotIndexes.y - lastDotIndexes.y)==1))) 
-        { 
-          clicks = 0;
-          boolean cheating = areDotsConnected(firstDotIndexes, lastDotIndexes);
-          if (cheating == true) { 
-            println("Don't try to be OverSmart, CHEATER!!!"); 
-            dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
-            return;
-          } else {
-            manageBoxes(firstDotIndexes, lastDotIndexes);
-            dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
-            dots[byte(lastDotIndexes.x)][byte(lastDotIndexes.y)].setCol(0);
-            if (changeTurn == true) changeTurn();
-          }
-        } else if (firstDotIndexes.x == lastDotIndexes.x && firstDotIndexes.y == lastDotIndexes.y) {
-          clicks = 0;
-          if (dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].isFilled() == true) 
-            dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
-          else dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(255);
-        }
+    println("last index : ", byte(lastDotIndexes.x), byte(lastDotIndexes.y));
+    if (((firstDotIndexes.x == lastDotIndexes.x)^(firstDotIndexes.y == lastDotIndexes.y))&&((abs(firstDotIndexes.x - lastDotIndexes.x)==1)^(abs(firstDotIndexes.y - lastDotIndexes.y)==1))) 
+    { 
+      boolean cheating = areDotsConnected(firstDotIndexes, lastDotIndexes);
+      if (cheating == true) { 
+        println("Don't try to be OverSmart, CHEATER!!!"); 
+        dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
+        return;
+      } else {
+        manageBoxes(firstDotIndexes, lastDotIndexes);
+        dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
+        dots[byte(lastDotIndexes.x)][byte(lastDotIndexes.y)].setCol(0);
+        if (changeTurn == true) changeTurn();
       }
+    } else if (firstDotIndexes.x == lastDotIndexes.x && firstDotIndexes.y == lastDotIndexes.y) {
+      if (dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].isFilled() == true) 
+        dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(0);
+      else dots[byte(firstDotIndexes.x)][byte(firstDotIndexes.y)].setCol(255);
     }
   }
 
@@ -195,8 +193,7 @@ class GameManager {
   }
 
   void keyPressed() {
-    if (key == 'c') clicks = 0;
-    else if (key == 'p') {
+    if (key == 'p') {
       for (byte r = 0; r < NROWS-1; r++) {
         for (byte c = 0; c < NCOLS-1; c++) {
           print("Box[", r, "][", c, "]");
@@ -207,25 +204,25 @@ class GameManager {
   }
 
   PVector getIndexes() {
-    PVector lastDotIndexes = new PVector(0, 0);
+    PVector dotIndex = new PVector(0, 0);
     boolean cFlag = false;
     boolean rFlag = false;
     float touchMargin = 10;
     for (int c = 0; c < NCOLS; c++) {
       if (mouseX > (start.x + c*(space+RADII) - touchMargin) && mouseX < (start.x + c*(space+RADII) + RADII + touchMargin)) {
-        lastDotIndexes.y = c;
+        dotIndex.y = c;
         cFlag = true;
         break;
       }
     }
     for (int r = 0; r < NROWS; r++) {
       if (mouseY > (start.y + r*(space+RADII) - touchMargin) && mouseY < (start.y + r*(space+RADII) + RADII + touchMargin)) {
-        lastDotIndexes.x = r;
+        dotIndex.x = r;
         rFlag = true;
         break;
       }
     }
-    if (cFlag && rFlag) return lastDotIndexes;
+    if (cFlag && rFlag) return dotIndex;
     else return new PVector(-1, -1);
   }
 }
