@@ -11,7 +11,7 @@ class Dot {
 
   void draw() {
     stroke(0);
-    strokeWeight(1);
+    strokeWeight(2);
     fill(col);
     ellipse(position.x+RADII/2, position.y+RADII/2, 2*RADII, 2*RADII);
     //rect(position.x, position.y, RADII, RADII);

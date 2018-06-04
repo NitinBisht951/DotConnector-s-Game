@@ -46,27 +46,27 @@ class Box {
   }
 
   void show() {
+    pushStyle();
+    if (fullyBounded) {
+      rectMode(CENTER);
+      fill(boxColor);
+      noStroke();
+      rect(center.x, center.y, 2*boxRadii, 2*boxRadii);
+      rectMode(CORNER);
+    }
+    stroke(0);
     showWalls();
     if (fullyBounded) {
-      showName();
+      textAlign(CENTER, CENTER);
+      textFont(initialsFont, boxRadii);
+      fill(0);
+      text(playerInitial, center.x, center.y);
     }
+    popStyle();
   }
 
   void printWallsStatus() {
     println(walls[0], walls[1], walls[2], walls[3]);
-  }
-
-  void showName() {
-    pushStyle();
-    rectMode(CENTER);
-    fill(boxColor);
-    noStroke();
-    rect(center.x+2, center.y+2, 2*boxRadii, 2*boxRadii);
-    textAlign(CENTER, CENTER);
-    textFont(initialsFont, boxRadii);
-    fill(0);
-    text(playerInitial, center.x, center.y);
-    popStyle();
   }
 
   void showWalls() {
@@ -75,7 +75,7 @@ class Box {
     float bottom = center.y+boxRadii;
     float right = center.x+boxRadii;
     float margin = RADII/2;
-    strokeWeight(4);
+    strokeWeight(6);
     if (walls[0]) line(left+margin, top, right-margin, top);
     if (walls[1]) line(right, top+margin, right, bottom-margin);
     if (walls[2]) line(left+margin, bottom, right-margin, bottom);
@@ -85,12 +85,15 @@ class Box {
   boolean getTopWallStatus() {
     return walls[0];
   }
+
   boolean getRightWallStatus() {
     return walls[1];
   }
+
   boolean getBottomWallStatus() {
     return walls[2];
   }
+
   boolean getLeftWallStatus() {
     return walls[3];
   }
