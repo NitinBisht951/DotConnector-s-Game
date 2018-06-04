@@ -1,2 +1,2 @@
 # DotConnector-s-Game
-Connect the dots to make maximum boxes of your initial, and win the game.
+Connect the dots to make maximum boxes of your name's initial, and win the game.
