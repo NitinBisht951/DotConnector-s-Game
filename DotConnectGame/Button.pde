@@ -31,7 +31,7 @@ class Button {
     //point(2*width/3, posY + textAscent()/2+20);
     //point(width/3, posY + textAscent()/2+20);
   }
-
+  
   boolean isClicked() {
     boolean clicked = ((mouseX > width/3)&&(mouseX < 2*width/3))&&((mouseY > (posY -textAscent()/2-20))&&(mouseY < posY + textAscent()/2+20));
     return clicked;

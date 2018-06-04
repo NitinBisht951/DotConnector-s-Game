@@ -9,6 +9,7 @@ class StartMenu {
     startButton = new Button("Play", s);
     helpButton = new Button("Help", s+125);
     exitButton = new Button("Exit", s+250);
+
     startPlay = false;
   }
 

@@ -9,6 +9,7 @@ float space;
 PFont scoreFont, initialsFont;
 float boxRadii;
 
+
 StartMenu menu; 
 GameManager game;
 String[] playersName = {"AANCHAL", "ABHI"};
@@ -17,16 +18,16 @@ color[] idColors = new color[]{#BB7236, #A16BD1};
 void setup() {
   //fullScreen();
   size(540, 960);         
-  //size(displayWidth, displayHeight); //for mobile, size(600, 600) for PC
 
-  init();
+  //size(displayWidth, displayHeight); //for mobile, size(600, 600) for PC
+  
   menu = new StartMenu();
+  init();
   game = new GameManager();
 }
 
 void draw() {
   background(#96a7ba);              //0DDC6F 5C679B 96a7ba
-  println(mouseX,mouseY);
   if (menu.isAlive()) {
     menu.showOptions();
   } else {
