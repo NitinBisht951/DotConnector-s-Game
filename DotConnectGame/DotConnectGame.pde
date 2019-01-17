@@ -1,5 +1,5 @@
 final float RADII = 10;              // 10 for mobile, 6 for PC
-final byte NROWS = 9;              // 8 for mobile, 9 for PC
+final byte NROWS = 8;              // 8 for mobile, 9 for PC
 final byte NCOLS = 6;              // 6  for mobile, 10 for PC
 final byte NPLAYERS = 2;
 final int MAXSCORE = int(NROWS-1)*int(NCOLS-1);

@@ -73,7 +73,7 @@ class GameManager {
         strokeCap(ROUND);
         stroke(#000000);
         strokeWeight(15);
-        point(50+i*spaceFactor, upMargin);                                    // 100 for mobile, 50 for PC
+        point(100+i*spaceFactor, upMargin);                                    // 100 for mobile, 50 for PC
         popStyle();
       }
       fill(0);
